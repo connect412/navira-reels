@@ -11,7 +11,7 @@ window.addEventListener('message',async e=>{
   try{
     if(!cache[name]){ S('Fetching '+name); cache[name]=fetch(BASE+name).then(r=>r.blob()); }
     const b=await cache[name];
-    e.source.postMessage({navira:1,name:name,blob:b},'https://business.facebook.com');
+    (e.ports&&e.ports[0]) ? e.ports[0].postMessage({navira:1,name:name,blob:b}) : e.source.postMessage({navira:1,name:name,blob:b},'https://business.facebook.com');
     S('Sent '+name+' '+b.size);
   }catch(err){ S('ERR '+err); }
 });
