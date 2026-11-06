@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Navira relay</title></head><body>
+<p id="s">Loading...</p>
+<script>
+// Fetches a week-2 reel from this repo and hands it to the window that opened this one (Meta Business Suite tab).
+const BASE='https://raw.githubusercontent.com/connect412/navira-reels/claude/project-thread-cxxan2/reels-week2/';
+const name=new URLSearchParams(location.search).get('f') || (location.hash||'').slice(1);
+(async()=>{
+  try{
+    const r=await fetch(BASE+name); const b=await r.blob();
+    document.getElementById('s').textContent='Loaded '+name+' '+b.size;
+    window.opener.postMessage({navira:1,name:name,blob:b},'https://business.facebook.com');
+    document.getElementById('s').textContent+=' sent';
+  }catch(e){document.getElementById('s').textContent='ERR '+e;}
+})();
+</script></body></html>
